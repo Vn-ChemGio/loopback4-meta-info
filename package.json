@@ -1,7 +1,7 @@
 {
   "name": "loopback4-meta-info",
   "version": "1.0.0",
-  "author": "Wind Blade",
+  "author": "Wind Blade<vn.chemgio@yahoo.com>",
   "description": "A loopback-next extension for meta data include soft delete feature",
   "keywords": [
     "loopback-extension",

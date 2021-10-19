@@ -14,9 +14,9 @@ import {
 } from '@loopback/repository';
 import {DefaultTransactionSoftCrudRepository} from '../../repositories';
 import {Getter} from '@loopback/context';
-import {IAuthUser}  from 'loopback4-authentication';
+import {IAuthUser} from 'loopback4-authentication';
 import {MetaEntity} from '../../models';
-import {fail}       from 'assert';
+import {fail} from 'assert';
 
 /**
  * A mock up model class

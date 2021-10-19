@@ -11,12 +11,12 @@ import {
   property,
   model,
   EntityNotFoundError,
-}                               from '@loopback/repository';
+} from '@loopback/repository';
 import {SoftMetaCrudRepository} from '../../repositories';
-import {Getter}                 from '@loopback/context';
-import {IAuthUser}  from 'loopback4-authentication';
+import {Getter} from '@loopback/context';
+import {IAuthUser} from 'loopback4-authentication';
 import {MetaEntity} from '../../models';
-import {fail}       from 'assert';
+import {fail} from 'assert';
 
 /**
  * A mock up model class

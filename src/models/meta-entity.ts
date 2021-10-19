@@ -50,7 +50,7 @@ export abstract class MetaEntity extends Entity {
     },
   })
   updatedBy?: string;
-  
+
   @property({
     type: 'boolean',
     default: false,
