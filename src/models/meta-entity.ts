@@ -9,7 +9,48 @@ import {Entity, property} from '@loopback/repository';
  * namely, 'deleted', deletedOn, deletedBy
  * Its an abstract class so no repository class should be based on this.
  */
-export abstract class SoftDeleteEntity extends Entity {
+export abstract class MetaEntity extends Entity {
+  @property({
+    type: 'date',
+    required: false,
+    defaultFn: 'now',
+    name: 'created_on',
+    jsonSchema: {
+      nullable: true,
+    },
+  })
+  createdOn: Date;
+
+  @property({
+    type: 'date',
+    required: false,
+    name: 'updated_on',
+    jsonSchema: {
+      nullable: true,
+    },
+  })
+  updatedOn: Date;
+
+  @property({
+    type: 'String',
+    required: false,
+    name: 'created_by',
+    jsonSchema: {
+      nullable: true,
+    },
+  })
+  createdBy?: string;
+
+  @property({
+    type: 'String',
+    required: false,
+    name: 'updated_by',
+    jsonSchema: {
+      nullable: true,
+    },
+  })
+  updatedBy?: string;
+  
   @property({
     type: 'boolean',
     default: false,
@@ -34,7 +75,7 @@ export abstract class SoftDeleteEntity extends Entity {
   })
   deletedBy?: string;
 
-  constructor(data?: Partial<SoftDeleteEntity>) {
+  constructor(data?: Partial<MetaEntity>) {
     super(data);
   }
 }

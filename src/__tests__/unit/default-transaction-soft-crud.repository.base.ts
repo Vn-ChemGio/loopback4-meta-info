@@ -14,15 +14,15 @@ import {
 } from '@loopback/repository';
 import {DefaultTransactionSoftCrudRepository} from '../../repositories';
 import {Getter} from '@loopback/context';
-import {IAuthUser} from 'loopback4-authentication';
-import {SoftDeleteEntity} from '../../models';
-import {fail} from 'assert';
+import {IAuthUser}  from 'loopback4-authentication';
+import {MetaEntity} from '../../models';
+import {fail}       from 'assert';
 
 /**
  * A mock up model class
  */
 @model()
-class Customer extends SoftDeleteEntity {
+class Customer extends MetaEntity {
   @property({
     id: true,
   })

@@ -11,18 +11,18 @@ import {
   property,
   model,
   EntityNotFoundError,
-} from '@loopback/repository';
-import {SoftCrudRepository} from '../../repositories';
-import {Getter} from '@loopback/context';
-import {IAuthUser} from 'loopback4-authentication';
-import {SoftDeleteEntity} from '../../models';
-import {fail} from 'assert';
+}                               from '@loopback/repository';
+import {SoftMetaCrudRepository} from '../../repositories';
+import {Getter}                 from '@loopback/context';
+import {IAuthUser}  from 'loopback4-authentication';
+import {MetaEntity} from '../../models';
+import {fail}       from 'assert';
 
 /**
  * A mock up model class
  */
 @model()
-class Customer extends SoftDeleteEntity {
+class Customer extends MetaEntity {
   @property({
     id: true,
   })
@@ -31,7 +31,7 @@ class Customer extends SoftDeleteEntity {
   email: string;
 }
 
-class CustomerCrudRepo extends SoftCrudRepository<Customer, number> {
+class CustomerCrudRepo extends SoftMetaCrudRepository<Customer, number> {
   constructor(
     entityClass: typeof Entity & {
       prototype: Customer;

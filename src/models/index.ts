@@ -1,1 +1,1 @@
-export * from './soft-delete-entity';
+export * from './meta-entity';

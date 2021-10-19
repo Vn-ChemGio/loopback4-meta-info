@@ -11,14 +11,14 @@ import {
   Entity,
 } from '@loopback/repository';
 import {Count} from '@loopback/repository/src/common-types';
-import {Options} from 'loopback-datasource-juggler';
-import {SoftDeleteEntity} from '../models';
-import {IAuthUser} from 'loopback4-authentication';
+import {Options}    from 'loopback-datasource-juggler';
+import {MetaEntity} from '../models';
+import {IAuthUser}  from 'loopback4-authentication';
 import {HttpErrors} from '@loopback/rest';
 import {ErrorKeys} from '../error-keys';
 
 export abstract class DefaultTransactionSoftCrudRepository<
-  T extends SoftDeleteEntity,
+  T extends MetaEntity,
   ID,
   Relations extends object = {}
 > extends DefaultTransactionalRepository<T, ID, Relations> {
@@ -248,9 +248,9 @@ export abstract class DefaultTransactionSoftCrudRepository<
 
   async delete(entity: T, options?: Options): Promise<void> {
     // Do soft delete, no hard delete allowed
-    (entity as SoftDeleteEntity).deleted = true;
-    (entity as SoftDeleteEntity).deletedOn = new Date();
-    (entity as SoftDeleteEntity).deletedBy = await this.getUserId();
+    (entity as MetaEntity).deleted   = true;
+    (entity as MetaEntity).deletedOn = new Date();
+    (entity as MetaEntity).deletedBy = await this.getUserId();
     return super.update(entity, options);
   }
 
