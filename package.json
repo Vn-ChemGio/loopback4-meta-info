@@ -1,6 +1,6 @@
 {
   "name": "loopback4-meta-info",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Wind Blade<vn.chemgio@yahoo.com>",
   "description": "A loopback-next extension for meta data include soft delete feature",
   "keywords": [
@@ -78,10 +78,12 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@loopback/core": "^2.16.0",
-    "@loopback/rest": "^9.3.0",
-    "lodash": "^4.17.21",
-    "loopback4-authentication": "^4.6.0"
+    "@loopback/core": "^2.18.0",
+    "@loopback/rest": "^10.1.0",
+    "@loopback/security": "^0.5.4",
+    "@loopback/authentication": "^7.3.4",
+    "@loopback/authentication-jwt": "^0.9.4",
+    "lodash": "^4.17.21"
   },
  
   "config": {

@@ -14,9 +14,9 @@ import {
 } from '@loopback/repository';
 import {SoftMetaCrudRepository} from '../../repositories';
 import {Getter} from '@loopback/context';
-import {IAuthUser} from 'loopback4-authentication';
 import {MetaEntity} from '../../models';
 import {fail} from 'assert';
+import {securityId, UserProfile} from '@loopback/security';
 
 /**
  * A mock up model class
@@ -37,7 +37,7 @@ class CustomerCrudRepo extends SoftMetaCrudRepository<Customer, number> {
       prototype: Customer;
     },
     dataSource: juggler.DataSource,
-    protected readonly getCurrentUser?: Getter<IAuthUser | undefined>,
+    protected readonly getCurrentUser?: Getter<UserProfile | undefined>,
   ) {
     super(entityClass, dataSource, getCurrentUser);
   }
@@ -54,7 +54,9 @@ describe('SoftCrudRepository', () => {
     repo = new CustomerCrudRepo(Customer, ds, () =>
       Promise.resolve({
         id: '1',
-        username: 'test',
+        name: 'WindBlade',
+        email: 'vn.chemgio@yahoo.com',
+        [securityId]: 'XXXXX-XXX',
       }),
     );
   });

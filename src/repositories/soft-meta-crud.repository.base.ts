@@ -1,4 +1,4 @@
-import {Getter} from '@loopback/core';
+import {Getter, inject} from '@loopback/core';
 import {
   AndClause,
   Condition,
@@ -12,8 +12,9 @@ import {
 } from '@loopback/repository';
 import {Count} from '@loopback/repository/src/common-types';
 import {HttpErrors} from '@loopback/rest';
+import {SecurityBindings, UserProfile} from '@loopback/security';
+
 import {Options} from 'loopback-datasource-juggler';
-import {IAuthUser} from 'loopback4-authentication';
 
 import {ErrorKeys} from '../error-keys';
 import {MetaEntity} from '../models';
@@ -23,12 +24,13 @@ export abstract class SoftMetaCrudRepository<
   ID,
   Relations extends object = {}
 > extends DefaultCrudRepository<T, ID, Relations> {
-  constructor(
+  protected constructor(
     entityClass: typeof Entity & {
       prototype: T;
     },
     dataSource: juggler.DataSource,
-    protected readonly getCurrentUser?: Getter<IAuthUser | undefined>,
+    @inject(SecurityBindings.USER, {optional: true})
+    protected getCurrentUser?: Getter<UserProfile | undefined>,
   ) {
     super(entityClass, dataSource);
   }
@@ -349,9 +351,8 @@ export abstract class SoftMetaCrudRepository<
     }
     let currentUser = await this.getCurrentUser();
     currentUser = currentUser ?? options?.currentUser;
-    if (!currentUser || !currentUser.id) {
-      return undefined;
-    }
+    if (!currentUser || !currentUser.id) return undefined;
+
     return currentUser.id.toString();
   }
 
