@@ -13,23 +13,24 @@ export abstract class MetaEntity extends Entity {
   @property({
     type: 'date',
     required: false,
-    defaultFn: 'now',
+    defaultFn: 'FLOOR(EXTRACT(epoch FROM NOW()))',
     name: 'created_on',
     jsonSchema: {
       nullable: true,
     },
   })
-  createdOn: Date;
+  createdOn: number;
 
   @property({
     type: 'date',
     required: false,
+    defaultFn: 'FLOOR(EXTRACT(epoch FROM NOW()))',
     name: 'updated_on',
     jsonSchema: {
       nullable: true,
     },
   })
-  updatedOn: Date;
+  updatedOn: number;
 
   @property({
     type: 'String',
@@ -64,7 +65,7 @@ export abstract class MetaEntity extends Entity {
       nullable: true,
     },
   })
-  deletedOn?: Date;
+  deletedOn?: number;
 
   @property({
     type: 'string',

@@ -284,7 +284,7 @@ export abstract class SoftMetaCrudRepository<
   async delete(entity: T, options?: Options): Promise<void> {
     // Do soft delete, no hard delete allowed
     (entity as MetaEntity).deleted = true;
-    (entity as MetaEntity).deletedOn = new Date();
+    (entity as MetaEntity).deletedOn = Math.floor(Date.now() / 1000);
     (entity as MetaEntity).deletedBy = await this.getUserId();
     return super.update(entity, options);
   }
@@ -294,7 +294,7 @@ export abstract class SoftMetaCrudRepository<
     return this.updateAll(
       {
         deleted: true,
-        deletedOn: new Date(),
+        deletedOn: Math.floor(Date.now() / 1000),
         deletedBy: await this.getUserId(),
       } as DataObject<T>,
       where,
@@ -308,7 +308,7 @@ export abstract class SoftMetaCrudRepository<
       id,
       {
         deleted: true,
-        deletedOn: new Date(),
+        deletedOn: Math.floor(Date.now() / 1000),
         deletedBy: await this.getUserId(),
       } as DataObject<T>,
       options,
@@ -361,8 +361,8 @@ export abstract class SoftMetaCrudRepository<
     getUserId = true,
     userId?: string,
   ): Promise<DataObject<T>> {
-    entity.createdOn = entity.createdOn ?? new Date();
-    entity.updatedOn = new Date();
+    entity.createdOn = entity.createdOn ?? Math.floor(Date.now() / 1000);
+    entity.updatedOn = Math.floor(Date.now() / 1000);
 
     entity.createdBy =
       entity.createdBy ?? getUserId ? await this.getUserId() : userId;
