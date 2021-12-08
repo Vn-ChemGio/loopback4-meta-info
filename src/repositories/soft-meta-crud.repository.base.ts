@@ -1,4 +1,4 @@
-import {Getter, inject} from '@loopback/core';
+import {Getter} from '@loopback/core';
 import {
   AndClause,
   Condition,
@@ -12,9 +12,8 @@ import {
 } from '@loopback/repository';
 import {Count} from '@loopback/repository/src/common-types';
 import {HttpErrors} from '@loopback/rest';
-import {SecurityBindings, UserProfile} from '@loopback/security';
-
 import {Options} from 'loopback-datasource-juggler';
+import {IAuthUser} from 'loopback4-authentication';
 
 import {ErrorKeys} from '../error-keys';
 import {MetaEntity} from '../models';
@@ -22,15 +21,14 @@ import {MetaEntity} from '../models';
 export abstract class SoftMetaCrudRepository<
   T extends MetaEntity,
   ID,
-  Relations extends object = {},
+  Relations extends object = {}
 > extends DefaultCrudRepository<T, ID, Relations> {
   protected constructor(
     entityClass: typeof Entity & {
       prototype: T;
     },
     dataSource: juggler.DataSource,
-    @inject(SecurityBindings.USER, {optional: true})
-    protected getCurrentUser?: Getter<UserProfile | undefined>,
+    protected getCurrentUser?: Getter<IAuthUser | undefined>,
   ) {
     super(entityClass, dataSource);
   }
@@ -206,6 +204,20 @@ export abstract class SoftMetaCrudRepository<
     }
   }
 
+  async updateById(
+    id: ID,
+    data: DataObject<T>,
+    options?: Options,
+  ): Promise<void> {
+    data.updatedOn = Math.floor(Date.now() / 1000);
+    data.updatedBy = await this.getUserId();
+
+    delete data.createdBy;
+    delete data.createdOn;
+
+    return super.updateById(id, data, options);
+  }
+
   async updateAll(
     data: DataObject<T>,
     where?: Where<T>,
@@ -240,7 +252,7 @@ export abstract class SoftMetaCrudRepository<
       (where as Condition<T>).deleted = false;
     }
 
-    data.updatedOn = new Date();
+    data.updatedOn = Math.floor(Date.now() / 1000);
     data.updatedBy = await this.getUserId();
 
     // Now call super

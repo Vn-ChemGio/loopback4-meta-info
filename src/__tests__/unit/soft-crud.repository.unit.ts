@@ -16,7 +16,8 @@ import {SoftMetaCrudRepository} from '../../repositories';
 import {Getter} from '@loopback/context';
 import {MetaEntity} from '../../models';
 import {fail} from 'assert';
-import {securityId, UserProfile} from '@loopback/security';
+import {securityId} from '@loopback/security';
+import {IAuthUser} from 'loopback4-authentication';
 
 /**
  * A mock up model class
@@ -37,7 +38,7 @@ class CustomerCrudRepo extends SoftMetaCrudRepository<Customer, number> {
       prototype: Customer;
     },
     dataSource: juggler.DataSource,
-    protected readonly getCurrentUser?: Getter<UserProfile | undefined>,
+    protected readonly getCurrentUser?: Getter<IAuthUser | undefined>,
   ) {
     super(entityClass, dataSource, getCurrentUser);
   }
@@ -54,7 +55,7 @@ describe('SoftCrudRepository', () => {
     repo = new CustomerCrudRepo(Customer, ds, () =>
       Promise.resolve({
         id: '1',
-        name: 'WindBlade',
+        username: 'WindBlade',
         email: 'vn.chemgio@yahoo.com',
         [securityId]: 'XXXXX-XXX',
       }),
@@ -511,8 +512,9 @@ describe('SoftCrudRepository', () => {
       } catch (e) {
         expect(e.message).to.be.equal('EntityNotFound');
       }
-      const afterDeleteIncludeSoftDeleted =
-        await repo.findByIdIncludeSoftDelete(1);
+      const afterDeleteIncludeSoftDeleted = await repo.findByIdIncludeSoftDelete(
+        1,
+      );
       expect(afterDeleteIncludeSoftDeleted)
         .to.have.property('email')
         .equal('john@example.com');

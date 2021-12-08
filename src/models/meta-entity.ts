@@ -11,23 +11,39 @@ import {Entity, property} from '@loopback/repository';
  */
 export abstract class MetaEntity extends Entity {
   @property({
-    type: 'date',
+    type: 'number',
     required: false,
     defaultFn: 'FLOOR(EXTRACT(epoch FROM NOW()))',
     name: 'created_on',
-    jsonSchema: {
-      nullable: true,
+    // jsonSchema: {
+    //   nullable: true,
+    // },
+    postgresql: {
+      columnName: 'created_on',
+      dataType: 'bigint',
+      dataLength: null,
+      dataPrecision: null,
+      dataScale: null,
+      nullable: 'YES',
     },
   })
   createdOn: number;
 
   @property({
-    type: 'date',
+    type: 'number',
     required: false,
     defaultFn: 'FLOOR(EXTRACT(epoch FROM NOW()))',
     name: 'updated_on',
-    jsonSchema: {
-      nullable: true,
+    // jsonSchema: {
+    //   nullable: true,
+    // },
+    postgresql: {
+      columnName: 'updated_on',
+      dataType: 'bigint',
+      dataLength: null,
+      dataPrecision: null,
+      dataScale: null,
+      nullable: 'YES',
     },
   })
   updatedOn: number;
@@ -59,10 +75,18 @@ export abstract class MetaEntity extends Entity {
   deleted?: boolean;
 
   @property({
-    type: 'date',
+    type: 'number',
     name: 'deleted_on',
-    jsonSchema: {
-      nullable: true,
+    // jsonSchema: {
+    //   nullable: true,
+    // },
+    postgresql: {
+      columnName: 'deleted_on',
+      dataType: 'bigint',
+      dataLength: null,
+      dataPrecision: null,
+      dataScale: null,
+      nullable: 'YES',
     },
   })
   deletedOn?: number;
