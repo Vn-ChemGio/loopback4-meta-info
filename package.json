@@ -46,7 +46,7 @@
   "peerDependencies": {
     "@loopback/boot": "^3.4.0",
     "@loopback/context": "^3.16.0",
-    "@loopback/repository": "^3.16.0"
+    "@loopback/repository": "^3.6.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.2",
@@ -85,7 +85,6 @@
     "@loopback/authentication-jwt": "^0.9.4",
     "lodash": "^4.17.21"
   },
- 
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-customizable"
