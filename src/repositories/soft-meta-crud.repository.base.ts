@@ -22,7 +22,7 @@ import {MetaEntity} from '../models';
 export abstract class SoftMetaCrudRepository<
   T extends MetaEntity,
   ID,
-  Relations extends object = {}
+  Relations extends object = {},
 > extends DefaultCrudRepository<T, ID, Relations> {
   protected constructor(
     entityClass: typeof Entity & {
