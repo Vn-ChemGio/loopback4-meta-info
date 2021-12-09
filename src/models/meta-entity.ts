@@ -14,12 +14,12 @@ export abstract class MetaEntity extends Entity {
     type: 'number',
     required: false,
     defaultFn: 'FLOOR(EXTRACT(epoch FROM NOW()))',
-    name: 'created_on',
+    name: 'created_at',
     // jsonSchema: {
     //   nullable: true,
     // },
     postgresql: {
-      columnName: 'created_on',
+      columnName: 'created_at',
       dataType: 'bigint',
       dataLength: null,
       dataPrecision: null,
@@ -27,18 +27,18 @@ export abstract class MetaEntity extends Entity {
       nullable: 'YES',
     },
   })
-  createdOn: number;
+  createdAt: number;
 
   @property({
     type: 'number',
     required: false,
     defaultFn: 'FLOOR(EXTRACT(epoch FROM NOW()))',
-    name: 'updated_on',
+    name: 'updated_at',
     // jsonSchema: {
     //   nullable: true,
     // },
     postgresql: {
-      columnName: 'updated_on',
+      columnName: 'updated_at',
       dataType: 'bigint',
       dataLength: null,
       dataPrecision: null,
@@ -46,7 +46,7 @@ export abstract class MetaEntity extends Entity {
       nullable: 'YES',
     },
   })
-  updatedOn: number;
+  updatedAt: number;
 
   @property({
     type: 'String',
@@ -76,12 +76,12 @@ export abstract class MetaEntity extends Entity {
 
   @property({
     type: 'number',
-    name: 'deleted_on',
+    name: 'deleted_at',
     // jsonSchema: {
     //   nullable: true,
     // },
     postgresql: {
-      columnName: 'deleted_on',
+      columnName: 'deleted_at',
       dataType: 'bigint',
       dataLength: null,
       dataPrecision: null,
@@ -89,7 +89,7 @@ export abstract class MetaEntity extends Entity {
       nullable: 'YES',
     },
   })
-  deletedOn?: number;
+  deletedAt?: number;
 
   @property({
     type: 'string',

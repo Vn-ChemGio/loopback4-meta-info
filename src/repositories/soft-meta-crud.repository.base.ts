@@ -209,11 +209,11 @@ export abstract class SoftMetaCrudRepository<
     data: DataObject<T>,
     options?: Options,
   ): Promise<void> {
-    data.updatedOn = Math.floor(Date.now() / 1000);
+    data.updatedAt = Math.floor(Date.now() / 1000);
     data.updatedBy = await this.getUserId();
 
     delete data.createdBy;
-    delete data.createdOn;
+    delete data.createdAt;
 
     return super.updateById(id, data, options);
   }
@@ -252,7 +252,7 @@ export abstract class SoftMetaCrudRepository<
       (where as Condition<T>).deleted = false;
     }
 
-    data.updatedOn = Math.floor(Date.now() / 1000);
+    data.updatedAt = Math.floor(Date.now() / 1000);
     data.updatedBy = await this.getUserId();
 
     // Now call super
@@ -296,7 +296,7 @@ export abstract class SoftMetaCrudRepository<
   async delete(entity: T, options?: Options): Promise<void> {
     // Do soft delete, no hard delete allowed
     (entity as MetaEntity).deleted = true;
-    (entity as MetaEntity).deletedOn = Math.floor(Date.now() / 1000);
+    (entity as MetaEntity).deletedAt = Math.floor(Date.now() / 1000);
     (entity as MetaEntity).deletedBy = await this.getUserId();
     return super.update(entity, options);
   }
@@ -306,7 +306,7 @@ export abstract class SoftMetaCrudRepository<
     return this.updateAll(
       {
         deleted: true,
-        deletedOn: Math.floor(Date.now() / 1000),
+        deletedAt: Math.floor(Date.now() / 1000),
         deletedBy: await this.getUserId(),
       } as DataObject<T>,
       where,
@@ -320,7 +320,7 @@ export abstract class SoftMetaCrudRepository<
       id,
       {
         deleted: true,
-        deletedOn: Math.floor(Date.now() / 1000),
+        deletedAt: Math.floor(Date.now() / 1000),
         deletedBy: await this.getUserId(),
       } as DataObject<T>,
       options,
@@ -373,8 +373,8 @@ export abstract class SoftMetaCrudRepository<
     getUserId = true,
     userId?: string,
   ): Promise<DataObject<T>> {
-    entity.createdOn = entity.createdOn ?? Math.floor(Date.now() / 1000);
-    entity.updatedOn = Math.floor(Date.now() / 1000);
+    entity.createdAt = entity.createdAt ?? Math.floor(Date.now() / 1000);
+    entity.updatedAt = Math.floor(Date.now() / 1000);
 
     entity.createdBy =
       entity.createdBy ?? getUserId ? await this.getUserId() : userId;
@@ -382,7 +382,7 @@ export abstract class SoftMetaCrudRepository<
 
     //protected value
     delete entity.deleted;
-    delete entity.deletedOn;
+    delete entity.deletedAt;
     delete entity.deletedBy;
     return entity;
   }
