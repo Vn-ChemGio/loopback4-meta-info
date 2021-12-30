@@ -40,7 +40,7 @@ class CustomerCrudRepo extends SoftMetaCrudRepository<Customer, number> {
     dataSource: juggler.DataSource,
     protected readonly getCurrentUser?: Getter<IAuthUser | undefined>,
   ) {
-    super(entityClass, dataSource, getCurrentUser);
+    super(entityClass, dataSource);
   }
 }
 

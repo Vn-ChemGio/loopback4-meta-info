@@ -1,4 +1,4 @@
-import {Getter} from '@loopback/core';
+import {Getter, inject} from '@loopback/core';
 import {
   AndClause,
   Condition,
@@ -12,8 +12,8 @@ import {
 } from '@loopback/repository';
 import {Count} from '@loopback/repository/src/common-types';
 import {HttpErrors} from '@loopback/rest';
+import { SecurityBindings, securityId, UserProfile } from '@loopback/security';
 import {Options} from 'loopback-datasource-juggler';
-import {IAuthUser} from 'loopback4-authentication';
 
 import {ErrorKeys} from '../error-keys';
 import {MetaEntity} from '../models';
@@ -23,12 +23,12 @@ export abstract class SoftMetaCrudRepository<
   ID,
   Relations extends object = {}
 > extends DefaultCrudRepository<T, ID, Relations> {
+  @inject.getter(SecurityBindings.USER) private currentUser?: Getter<UserProfile>
   protected constructor(
     entityClass: typeof Entity & {
       prototype: T;
     },
-    dataSource: juggler.DataSource,
-    protected getCurrentUser?: Getter<IAuthUser | undefined>,
+    dataSource: juggler.DataSource
   ) {
     super(entityClass, dataSource);
   }
@@ -357,16 +357,19 @@ export abstract class SoftMetaCrudRepository<
     return super.deleteById(id, options);
   }
 
-  private async getUserId(options?: Options): Promise<string | undefined> {
-    if (!this.getCurrentUser) {
+  protected async getUserId () : Promise<string | undefined> {
+    if (!this.currentUser) {
       return undefined;
     }
-    let currentUser = await this.getCurrentUser();
-    currentUser = currentUser ?? options?.currentUser;
-    if (!currentUser || !currentUser.id) return undefined;
-
-    return currentUser.id.toString();
+    const user = await this.currentUser!();
+    console.log('user====', user)
+    if (!user || !user[securityId]) {
+        return undefined;
+    }
+    console.log('securityId====', user[securityId])
+    return user[securityId];
   }
+
 
   private async prepaidEntity(
     entity: DataObject<T>,
@@ -386,4 +389,5 @@ export abstract class SoftMetaCrudRepository<
     delete entity.deletedBy;
     return entity;
   }
+
 }
