@@ -361,12 +361,12 @@ export abstract class SoftMetaCrudRepository<
     if (!this.currentUser) {
       return undefined;
     }
-    const user = await this.currentUser!();
-    console.log('user====', user)
+
+    const user = await this.currentUser();
     if (!user || !user[securityId]) {
         return undefined;
     }
-    console.log('securityId====', user[securityId])
+
     return user[securityId];
   }
 
