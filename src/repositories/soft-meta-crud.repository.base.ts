@@ -23,7 +23,7 @@ export abstract class SoftMetaCrudRepository<
   ID,
   Relations extends object = {}
 > extends DefaultCrudRepository<T, ID, Relations> {
-  @inject.getter(SecurityBindings.USER) private currentUser?: Getter<UserProfile>
+  @inject.getter(SecurityBindings.USER, {optional: true}) private currentUser?: Getter<UserProfile>
   protected constructor(
     entityClass: typeof Entity & {
       prototype: T;
